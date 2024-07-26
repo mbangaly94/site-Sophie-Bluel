@@ -52,27 +52,37 @@ async function displayCategoriesButtons() {
     btn.classList.add("buttons-filtres");
     containerFiltres.appendChild(btn);
   });
+  updatebuttons();
+  filterCategory();
 }
 displayCategoriesButtons();
-
+let currentIndex = 0;
 async function updatebuttons() {
-  const listButtons = document.querySelectorAll(".container-filtres");
+  const listButtons = document.querySelectorAll(".buttons-filtres");
   for (let index = 0; index < listButtons.length; index++) {
     const containerFiltres = listButtons[index];
-    if (index === currentIndex) {
-      containerFiltres.classList.add(".active");
+    console.log(containerFiltres);
+    if (index == currentIndex) {
+      containerFiltres.classList.add("active");
     } else {
-      containerFiltres.classList.remove(".active");
+      containerFiltres.classList.remove("active");
     }
   }
 }
 
 //filter button by category
+
 async function filterCategory() {
   const project = await getworks;
   //console.log(project);
-  const buttons = document.querySelectorAll(".container-filtres button");
-  console.log(buttons);
-}
+  const buttons = document.querySelectorAll(".buttons-filtres");
+  //console.log(buttons);
+  for (let index = 0; index < buttons.length; index++) {
+    buttons[index].addEventListener("click", function () {
+      currentIndex = buttons[index].id;
+      console.log(currentIndex);
 
-filterCategory();
+      updatebuttons();
+    });
+  }
+}
