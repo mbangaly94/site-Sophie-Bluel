@@ -1,49 +1,40 @@
 /* Variables */
 const gallery = document.querySelector(".gallery");
-const body = document.querySelector("body");
 const containerFiltres = document.querySelector(".container-filtres");
 
-//fonction return le tableau des works
+// Fonction pour obtenir les travaux
 async function getworks() {
   const response = await fetch("http://localhost:5678/api/works");
   return await response.json();
 }
-getworks();
 
-//display of works
-async function displayWorks() {
-  const arrayWorks = await getworks();
-  console.log(arrayWorks);
-  arrayWorks.forEach((work) => {
+// Fonction pour afficher les travaux
+function displayWorks(works) {
+  gallery.innerHTML = ""; // Nettoyer la galerie avant d'afficher
+  works.forEach((work) => {
     const figure = document.createElement("figure");
+    figure.dataset.categoryId = work.categoryId; // Ajouter l'ID de la catégorie comme attribut de données
     const img = document.createElement("img");
     const figcaption = document.createElement("figcaption");
     img.src = work.imageUrl;
     img.alt = work.title;
     figcaption.textContent = work.title;
 
-    //figure.classList.add("galleryStyle");
     figure.appendChild(img);
     figure.appendChild(figcaption);
     gallery.appendChild(figure);
   });
-  //console.log(arrayWorks);
 }
-displayWorks();
 
-/***get catecories */
+// Fonction pour obtenir les catégories
 async function getCategories() {
   const response = await fetch("http://localhost:5678/api/categories");
   return await response.json();
-  //const responseJson = await response.json();
-  //console.log(responseJson);
 }
-//getCategories();
 
-/***display buttons by category** */
+// Fonction pour afficher les boutons de catégories
 async function displayCategoriesButtons() {
   const categories = await getCategories();
-  console.log(categories);
 
   categories.forEach((category) => {
     const btn = document.createElement("button");
@@ -52,37 +43,45 @@ async function displayCategoriesButtons() {
     btn.classList.add("buttons-filtres");
     containerFiltres.appendChild(btn);
   });
-  updatebuttons();
+
+  updateButtons();
   filterCategory();
 }
 displayCategoriesButtons();
-let currentIndex = 0;
-async function updatebuttons() {
+
+let currentIndex = "0";
+
+function updateButtons() {
   const listButtons = document.querySelectorAll(".buttons-filtres");
-  for (let index = 0; index < listButtons.length; index++) {
-    const containerFiltres = listButtons[index];
-    console.log(containerFiltres);
-    if (index == currentIndex) {
-      containerFiltres.classList.add("active");
+  listButtons.forEach((button) => {
+    if (button.id === currentIndex) {
+      button.classList.add("active");
     } else {
-      containerFiltres.classList.remove("active");
+      button.classList.remove("active");
     }
-  }
+  });
 }
 
-//filter button by category
-
+// Fonction pour filtrer les travaux par catégorie
 async function filterCategory() {
-  const project = await getworks;
-  //console.log(project);
+  const works = await getworks();
   const buttons = document.querySelectorAll(".buttons-filtres");
-  //console.log(buttons);
-  for (let index = 0; index < buttons.length; index++) {
-    buttons[index].addEventListener("click", function () {
-      currentIndex = buttons[index].id;
-      console.log(currentIndex);
-
-      updatebuttons();
+  buttons.forEach((button) => {
+    button.addEventListener("click", function () {
+      currentIndex = button.id;
+      if (currentIndex === "0") {
+        displayWorks(works);
+      } else {
+        const filteredWorks = works.filter(
+          (work) => work.categoryId == currentIndex
+        );
+        displayWorks(filteredWorks);
+        console.log(filteredWorks);
+      }
+      updateButtons();
     });
-  }
+  });
 }
+
+// Afficher tous les travaux initiaux
+getworks().then(displayWorks);
