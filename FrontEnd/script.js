@@ -2,13 +2,13 @@
 const gallery = document.querySelector(".gallery");
 const containerFiltres = document.querySelector(".container-filtres");
 
-// Fonction pour obtenir les travaux
+// get works
 async function getworks() {
   const response = await fetch("http://localhost:5678/api/works");
   return await response.json();
 }
 
-// Fonction pour afficher les travaux
+// display works
 function displayWorks(works) {
   gallery.innerHTML = ""; // Nettoyer la galerie avant d'afficher
   works.forEach((work) => {
@@ -26,13 +26,13 @@ function displayWorks(works) {
   });
 }
 
-// Fonction pour obtenir les catégories
+// get Categories
 async function getCategories() {
   const response = await fetch("http://localhost:5678/api/categories");
   return await response.json();
 }
 
-// Fonction pour afficher les boutons de catégories
+// display butons by categories
 async function displayCategoriesButtons() {
   const categories = await getCategories();
 
@@ -62,7 +62,7 @@ function updateButtons() {
   });
 }
 
-// Fonction pour filtrer les travaux par catégorie
+// filter by categories
 async function filterCategory() {
   const works = await getworks();
   const buttons = document.querySelectorAll(".buttons-filtres");
@@ -83,5 +83,5 @@ async function filterCategory() {
   });
 }
 
-// Afficher tous les travaux initiaux
+// Display allworks
 getworks().then(displayWorks);
