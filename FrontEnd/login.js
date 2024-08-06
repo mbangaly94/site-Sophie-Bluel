@@ -26,13 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
       .then((data) => {
+        localStorage.setItem("token", data.token); //STORE TOKEN
+        window.location.replace("index.html");
         // Traitez les données de réponse ici
         console.log(data);
       })
       .catch((error) => {
         // Afficher un message d'erreur seulement si la réponse n'est pas correcte
         errorMsg.textContent = error.message;
-        console.error(error);
       });
   });
 });

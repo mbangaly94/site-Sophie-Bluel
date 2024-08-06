@@ -85,3 +85,11 @@ async function filterCategory() {
 
 // Display allworks
 getworks().then(displayWorks);
+
+const tokenStorage = localStorage.getItem("token");
+console.log(tokenStorage);
+if (tokenStorage) {
+  console.log("je suis connecté");
+} else {
+  console.log("je ne suis pas connecté");
+}
