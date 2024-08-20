@@ -10,10 +10,71 @@
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
+    <div class="adminMode" id="edition">
+      <i class="fa-regular fa-pen-to-square"></i>Mode édition
+    </div>
+
+    <section class="dialogue">
+      <div class="dialogueContainer" id="photoGalleryEdit">
+        <div class="dialogueHeader">
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+        <h3 class="dialogueTitle">Galerie photo</h3>
+        <div class="dialogueBody"></div>
+        <button id="buttonAddImage">Ajouter une photo</button>
+      </div>
+
+      <div class="dialogueContainer" id="imageAdd">
+        <div class="dialogueHeader">
+          <i class="fa-solid fa-arrow-left"></i>
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+        <h3 class="dialogueTitle">Ajout photo</h3>
+        <div class="dialogueBody">
+          <form id="formUploadImage" name="formUploadImage">
+            <div id="imageLabel">
+              <img
+                src="./assets/icons/picture.png"
+                id="previewImage"
+                alt="choisir une image"
+              />
+              <label for="imageUpload" id="buttonBrowseImages"
+                >+ Ajouter photo</label
+              >
+              <p>jpg, png : 4mo max</p>
+            </div>
+            <div id="previewImageContainer">
+              <img src="#" alt="votre image" id="previewImagePreview" />
+            </div>
+            <input
+              type="file"
+              class="photo"
+              name="imageUpload"
+              id="imageUpload"
+              accept="image/png, image/jpeg"
+              required
+            />
+            <label for="imageTitle">Titre</label>
+            <input type="text" id="imageTitle" name="imageTitle" required />
+            <label for="selectCategory">Catégorie</label>
+            <select id="selectCategory" name="selectCategory"></select>
+          </form>
+        </div>
+        <input type="submit" id="buttonSubmit" value="Valider" />
+      </div>
+    </section>
+
     <header>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
@@ -50,7 +111,14 @@
         </article>
       </section>
       <section id="portfolio">
-        <h2>Mes Projets</h2>
+        <div class="portfolio-title">
+          <h2>Mes Projets</h2>
+
+          <a class="adminMode" id="btnModifier" href="#"
+            ><i class="fa-regular fa-pen-to-square"></i>Modifier</a
+          >
+        </div>
+
         <div class="container-filtres">
           <button id="0" class="buttons-filtres">Tous</button>
         </div>
@@ -118,7 +186,6 @@
         </form>
       </section>
     </main>
-    <script></script>
     <footer>
       <nav>
         <ul>

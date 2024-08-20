@@ -319,3 +319,212 @@ footer nav ul {
   justify-content: flex-end;
   margin: 2em;
 }
+
+/**AdminMode**/
+
+.adminMode {
+  display: none;
+}
+#edition {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+#edition i {
+  color: white;
+  width: 16px;
+  height: 16px;
+}
+.portfolio-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portfolio-title a {
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+#btnModifier {
+  padding-left: 20px;
+  text-decoration: none;
+}
+#portfolio h2 {
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+/*window*/
+.dialogue {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+.dialogueContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: calc(100vw - 20px);
+  max-height: calc(100vh - 50px);
+  width: 630px;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin: auto;
+  overflow: auto;
+  z-index: 2;
+}
+.dialogueHeader {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#photoGalleryEdit .dialogueHeader {
+  justify-content: flex-end;
+}
+
+.dialogue i {
+  display: block;
+  font-size: 1.5em;
+  border-bottom: 10px;
+}
+
+.dialogueTitle {
+  font-size: 26px;
+  margin-bottom: 47px;
+}
+
+.dialogueBody {
+  width: 70%;
+  border-bottom: 1px solid #b3b3b3;
+  padding-bottom: 47px;
+}
+#photoGalleryEdit .dialogueBody {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-auto-rows: 1fr;
+  grid-column-gap: 8px;
+  grid-row-gap: 10px;
+}
+
+#buttonAddImage {
+  width: auto;
+  padding: 10px 49px;
+}
+
+#buttonDeleteGallery {
+  color: #d65353;
+}
+
+.previewImageCaption {
+  font-size: 12px;
+}
+
+.previewImageItem {
+  position: relative;
+}
+
+.previewImageItem i {
+  display: block;
+  box-sizing: border-box;
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 0.7em;
+  padding: 4px 5px;
+  border-radius: 2px;
+  position: absolute;
+  top: 0.4em;
+  right: 0.4em;
+}
+
+#imageAdd {
+  display: none;
+}
+
+#imageAdd .dialogueHeader {
+  justify-content: space-between;
+}
+
+#buttonSubmit {
+  background-color: #a7a7a7;
+  width: 37%;
+}
+
+#formUploadImage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+#imageLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 200px;
+  background-color: #e8f1f6;
+  border-radius: 3px;
+  margin-bottom: 30px;
+  text-align: center;
+  width: 100%;
+  padding-top: 25px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+#imageLabel p {
+  font-size: 10px;
+  font-weight: 400;
+}
+
+#previewImage {
+  margin-bottom: 27px;
+  width: 5.1em;
+}
+
+#previewImageContainer {
+  display: flex;
+  background-color: #e8f1f6;
+  height: 200px;
+  width: 100%;
+  justify-content: center;
+}
+
+#previewImageContainer img {
+  height: 100%;
+  width: 31%;
+  object-fit: cover;
+}
+
+#buttonBrowseImages {
+  font-family: "Work Sans";
+  font-size: 1em;
+  font-weight: 600;
+  color: #3d3d3d;
+  width: fit-content;
+}
+
+#buttonBrowseImages {
+  color: #306685;
+  background-color: #cbd6dc;
+  border: none;
+  padding: 10px 33px;
+  margin-bottom: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#imageTitle {
+  margin-bottom: 11px;
+}
