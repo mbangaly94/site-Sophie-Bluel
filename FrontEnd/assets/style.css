@@ -322,10 +322,10 @@ footer nav ul {
 
 /**AdminMode**/
 
-.adminMode {
+#adminMode {
   display: none;
 }
-#edition {
+.edition {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -333,7 +333,7 @@ footer nav ul {
   color: white;
   text-align: center;
 }
-#edition i {
+.edition i {
   color: white;
   width: 16px;
   height: 16px;
@@ -348,7 +348,8 @@ footer nav ul {
   text-align: center;
   align-items: center;
 }
-#btnModifier {
+.btnModifier {
+  display: flex;
   padding-left: 20px;
   text-decoration: none;
 }

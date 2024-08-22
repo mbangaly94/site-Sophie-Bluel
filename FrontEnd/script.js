@@ -87,18 +87,20 @@ async function filterCategory() {
 getworks().then(displayWorks);
 
 const tokenStorage = localStorage.getItem("token");
-const adminMode = document.querySelector(".adminMode");
+const adminMode = document.querySelector("#adminMode");
+const btnModifier = document.querySelector(".btnModifier");
+const modalViwer = document.querySelector(".dialogue");
 console.log(tokenStorage);
 if (tokenStorage) {
   adminMode.style.display = "flex";
+  btnModifier.style.display = "flex";
   console.log("je suis connecté");
 } else {
   adminMode.style.display = "none";
+  btnModifier.style.display = "none";
   console.log("je ne suis pas connecté");
 }
 
-const btnModifier = document.querySelector("#btnModifier");
-const modalViwer = document.querySelector(".dialogue");
 btnModifier.addEventListener("click", function () {
   modalViwer.style.display = "flex";
 });
