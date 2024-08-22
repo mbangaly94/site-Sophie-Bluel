@@ -102,3 +102,8 @@ const modalViwer = document.querySelector(".dialogue");
 btnModifier.addEventListener("click", function () {
   modalViwer.style.display = "flex";
 });
+
+const closeIcon = document.querySelector(".dialogueHeader i.fa-xmark");
+closeIcon.addEventListener("click", function () {
+  modalViwer.style.display = "none"; // Cache le dialogue
+});
