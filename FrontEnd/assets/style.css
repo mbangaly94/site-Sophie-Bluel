@@ -411,6 +411,26 @@ footer nav ul {
   border-bottom: 1px solid #b3b3b3;
   padding-bottom: 47px;
 }
+.imgContainer {
+  position: relative;
+}
+.dialogueBody img {
+  display: inline-block;
+  width: 76px;
+  height: 102px;
+}
+.imgContainer i {
+  background-color: #000000;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 17px;
+  height: 17px;
+  color: white;
+  cursor: pointer;
+  font-size: 17px;
+}
+
 #photoGalleryEdit .dialogueBody {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
