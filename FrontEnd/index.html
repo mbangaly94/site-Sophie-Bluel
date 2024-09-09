@@ -44,27 +44,15 @@
         <div class="dialogueBody">
           <form id="formUploadImage" name="formUploadImage">
             <div id="imageLabel">
-              <img
-                src="./assets/icons/picture.png"
-                id="previewImage"
-                alt="choisir une image"
-              />
+              <i class="fa-regular fa-image fa-2x"></i>
               <label for="imageUpload" id="buttonBrowseImages"
                 >+ Ajouter photo</label
               >
+              <input type="file" id="imageUpload" name="imageTitle" required />
               <p>jpg, png : 4mo max</p>
+              <img src="" id="previewImage" alt="choisir une image" />
             </div>
-            <div id="previewImageContainer">
-              <img src="#" alt="votre image" id="previewImagePreview" />
-            </div>
-            <input
-              type="file"
-              class="photo"
-              name="imageUpload"
-              id="imageUpload"
-              accept="image/png, image/jpeg"
-              required
-            />
+
             <label for="imageTitle">Titre</label>
             <input type="text" id="imageTitle" name="imageTitle" required />
             <label for="selectCategory">Catégorie</label>

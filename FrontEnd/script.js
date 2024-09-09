@@ -103,6 +103,7 @@ if (tokenStorage) {
 
 btnModifier.addEventListener("click", function () {
   modalViwer.style.display = "flex";
+  photoGalleryEdit.style.display = "flex";
 });
 
 const closeIcon = document.querySelector(
@@ -124,7 +125,8 @@ const cancelBtn = document.querySelector(
 const returnBtn = document.querySelector(".dialogueHeader i.fa-arrow-left");
 
 cancelBtn.addEventListener("click", function () {
-  photoGalleryEdit.style.display = "flex";
+  modalViwer.style.display = "none";
+  photoGalleryEdit.style.display = "none";
   imageAdd.style.display = "none";
 });
 
@@ -158,7 +160,7 @@ function displayModalWorks(works) {
     });
   });
 }
-// Fonction pour supprimer une œuvre via l'API
+// delete work
 async function deleteWork(workId) {
   const confirmed = confirm("Êtes-vous sûr de vouloir supprimer cette œuvre ?");
   if (!confirmed) return;
@@ -175,6 +177,8 @@ async function deleteWork(workId) {
     if (response.ok) {
       // Si la suppression est réussie, mettre à jour l'affichage des œuvres
       getworks().then(displayModalWorks);
+      getworks().then(displayWorks);
+
       alert("L'œuvre a été supprimée avec succès.");
     } else {
       alert("Erreur lors de la suppression de l'œuvre.");
@@ -183,3 +187,89 @@ async function deleteWork(workId) {
     console.error("Erreur lors de la suppression de l'œuvre :", error);
   }
 }
+//Sélectionner les éléments du formulaire
+const formUploadImage = document.getElementById("formUploadImage");
+const imageUpload = document.getElementById("imageUpload");
+const imageTitle = document.getElementById("imageTitle");
+const selectCategory = document.getElementById("selectCategory");
+const buttonSubmit = document.getElementById("buttonSubmit");
+const previewImage = document.getElementById("previewImage");
+
+// change categories
+async function loadCategories() {
+  const categories = await getCategories();
+  selectCategory.innerHTML = "";
+  categories.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    selectCategory.appendChild(option);
+  });
+}
+
+loadCategories();
+
+// image Preview
+imageUpload.addEventListener("change", function (event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      previewImage.src = e.target.result;
+      hideChildren();
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// hide children
+function hideChildren() {
+  // Sélectionne tous les enfants de #imageLabel sauf #previewImage
+  const children = imageLabel.querySelectorAll(":scope > *:not(#previewImage)");
+
+  children.forEach((child) => {
+    child.style.display = "none";
+  });
+}
+
+// Gérer l'envoi du formulaire pour ajouter une nouvelle image
+buttonSubmit.addEventListener("click", async function (event) {
+  event.preventDefault();
+
+  if (!imageUpload.files[0] || !imageTitle.value || !selectCategory.value) {
+    alert("Veuillez remplir tous les champs obligatoires.");
+    return;
+  }
+
+  // Création des données du formulaire
+  const formData = new FormData();
+  formData.append("image", imageUpload.files[0]);
+  formData.append("title", imageTitle.value);
+  formData.append("category", selectCategory.value);
+
+  try {
+    const token = localStorage.getItem("token");
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (response.ok) {
+      alert("L'image a été ajoutée avec succès.");
+      formUploadImage.reset();
+      previewImage.src = "./assets/icons/picture.png";
+      getworks().then(displayModalWorks); // update modalWorks
+      getworks().then(displayWorks); // update galeryWorks
+      photoGalleryEdit.style.display = "flex";
+      imageAdd.style.display = "none";
+    } else {
+      alert("Erreur lors de l'ajout de l'image.");
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de l'image :", error);
+    alert("Erreur lors de l'ajout de l'image.");
+  }
+});

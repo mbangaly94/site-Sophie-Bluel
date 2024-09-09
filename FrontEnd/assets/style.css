@@ -397,7 +397,6 @@ footer nav ul {
 
 .dialogue i {
   display: block;
-  font-size: 1.5em;
   border-bottom: 10px;
 }
 
@@ -491,6 +490,7 @@ footer nav ul {
 
 #imageLabel {
   display: flex;
+  justify-content: space-around;
   flex-direction: column;
   align-items: center;
   height: 200px;
@@ -503,6 +503,13 @@ footer nav ul {
   position: relative;
   box-sizing: border-box;
 }
+#imageLabel > * {
+  display: flex;
+}
+
+#imageLabel i {
+  color: #b9c5cc;
+}
 
 #imageLabel p {
   font-size: 10px;
@@ -510,8 +517,8 @@ footer nav ul {
 }
 
 #previewImage {
-  margin-bottom: 27px;
-  width: 5.1em;
+  width: 129px;
+  height: 193px;
 }
 
 #previewImageContainer {
