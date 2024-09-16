@@ -1,4 +1,4 @@
-/* Variables */
+/* ---------------------------------- Variables ---------------------------------- */
 const gallery = document.querySelector(".gallery");
 const containerFiltres = document.querySelector(".container-filtres");
 
@@ -62,7 +62,7 @@ function updateButtons() {
   });
 }
 
-// filter by categories
+/* filter by categories
 async function filterCategory() {
   const works = await getworks();
   const buttons = document.querySelectorAll(".buttons-filtres");
@@ -70,6 +70,7 @@ async function filterCategory() {
     button.addEventListener("click", function () {
       currentIndex = button.id;
       if (currentIndex === "0") {
+        console.log(works);
         displayWorks(works);
       } else {
         const filteredWorks = works.filter(
@@ -79,6 +80,28 @@ async function filterCategory() {
         console.log(filteredWorks);
       }
       updateButtons();
+    });
+  });
+}
+**/
+async function filterCategory() {
+  await getworks().then((works) => {
+    const buttons = document.querySelectorAll(".buttons-filtres");
+    buttons.forEach((button) => {
+      button.addEventListener("click", function () {
+        currentIndex = button.id;
+        if (currentIndex === "0") {
+          console.log(works);
+          displayWorks(works);
+        } else {
+          const filteredWorks = works.filter(
+            (work) => work.categoryId == currentIndex
+          );
+          displayWorks(filteredWorks);
+          console.log(filteredWorks);
+        }
+        updateButtons();
+      });
     });
   });
 }
@@ -211,6 +234,7 @@ loadCategories();
 
 // image Preview
 imageUpload.addEventListener("change", function (event) {
+  previewImage.style.display = "flex";
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
@@ -225,8 +249,9 @@ imageUpload.addEventListener("change", function (event) {
 // hide children
 function hideChildren() {
   // Sélectionne tous les enfants de #imageLabel sauf #previewImage
-  const children = imageLabel.querySelectorAll(":scope > *:not(#previewImage)");
-
+  const children = imageLabel.querySelectorAll(
+    ":scope > *:not(#previewImage):not(input)"
+  );
   children.forEach((child) => {
     child.style.display = "none";
   });
@@ -238,6 +263,10 @@ buttonSubmit.addEventListener("click", async function (event) {
 
   if (!imageUpload.files[0] || !imageTitle.value || !selectCategory.value) {
     alert("Veuillez remplir tous les champs obligatoires.");
+    console.log(imageTitle.value);
+    console.log(selectCategory.value);
+    console.log(imageUpload.files);
+
     return;
   }
 
@@ -261,8 +290,10 @@ buttonSubmit.addEventListener("click", async function (event) {
       alert("L'image a été ajoutée avec succès.");
       formUploadImage.reset();
       previewImage.src = "./assets/icons/picture.png";
+
       getworks().then(displayModalWorks); // update modalWorks
       getworks().then(displayWorks); // update galeryWorks
+
       photoGalleryEdit.style.display = "flex";
       imageAdd.style.display = "none";
     } else {
@@ -272,4 +303,24 @@ buttonSubmit.addEventListener("click", async function (event) {
     console.error("Erreur lors de l'ajout de l'image :", error);
     alert("Erreur lors de l'ajout de l'image.");
   }
+});
+
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const token = localStorage.getItem("token"); // Vérifie si l'utilisateur est connecté
+
+// Si l'utilisateur est connecté, affiche le bouton Logout et cache le bouton Login
+if (token) {
+  loginBtn.style.display = "none";
+  logoutBtn.style.display = "block";
+} else {
+  logoutBtn.style.display = "none";
+  loginBtn.style.display = "block";
+}
+
+// Ajouter l'événement de déconnexion
+logoutBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  localStorage.removeItem("token");
+  window.location.replace("login.html");
 });
