@@ -448,8 +448,17 @@ footer nav ul {
 }
 
 #buttonAddImage {
-  width: auto;
-  padding: 10px 49px;
+  padding: 10px 50px;
+  font-family: "Syne";
+  font-weight: 400;
+  color: white;
+  background-color: #1d6154;
+  margin: 40px auto 20px;
+  width: 240px;
+  text-align: center;
+  border-radius: 60px;
+  border-style: none;
+  cursor: pointer;
 }
 
 #buttonDeleteGallery {
@@ -486,8 +495,18 @@ footer nav ul {
 }
 
 #buttonSubmit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Syne;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
   background-color: #a7a7a7;
-  width: 37%;
+  text-align: center;
+  width: 237px;
+  height: 36px;
+  border-radius: 60px;
 }
 
 #formUploadImage {
@@ -529,6 +548,8 @@ footer nav ul {
 }
 
 #previewImage {
+  position: relative;
+  top: -18px;
   display: none;
   width: 129px;
   height: 193px;
@@ -568,7 +589,7 @@ footer nav ul {
 
 #imageTitle {
   border-color: #ffffff;
-  height: 51px;
+  height: 45px;
   margin-bottom: 11px;
   background: #ffffff;
   box-shadow: 0px 4px 14px 0px #00000017;

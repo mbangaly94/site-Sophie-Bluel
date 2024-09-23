@@ -2,10 +2,14 @@
 const gallery = document.querySelector(".gallery");
 const containerFiltres = document.querySelector(".container-filtres");
 
+let worksFetched = [];
+
 // get works
 async function getworks() {
   const response = await fetch("http://localhost:5678/api/works");
-  return await response.json();
+  const data = await response.json();
+  worksFetched = data;
+  return data;
 }
 
 // display works
@@ -62,46 +66,20 @@ function updateButtons() {
   });
 }
 
-/* filter by categories
 async function filterCategory() {
-  const works = await getworks();
   const buttons = document.querySelectorAll(".buttons-filtres");
   buttons.forEach((button) => {
     button.addEventListener("click", function () {
       currentIndex = button.id;
       if (currentIndex === "0") {
-        console.log(works);
-        displayWorks(works);
+        displayWorks(worksFetched);
       } else {
-        const filteredWorks = works.filter(
+        const filteredWorks = worksFetched.filter(
           (work) => work.categoryId == currentIndex
         );
         displayWorks(filteredWorks);
-        console.log(filteredWorks);
       }
       updateButtons();
-    });
-  });
-}
-**/
-async function filterCategory() {
-  await getworks().then((works) => {
-    const buttons = document.querySelectorAll(".buttons-filtres");
-    buttons.forEach((button) => {
-      button.addEventListener("click", function () {
-        currentIndex = button.id;
-        if (currentIndex === "0") {
-          console.log(works);
-          displayWorks(works);
-        } else {
-          const filteredWorks = works.filter(
-            (work) => work.categoryId == currentIndex
-          );
-          displayWorks(filteredWorks);
-          console.log(filteredWorks);
-        }
-        updateButtons();
-      });
     });
   });
 }
