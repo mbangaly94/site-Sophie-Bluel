@@ -1,8 +1,34 @@
 /* ---------------------------------- Variables ---------------------------------- */
 const gallery = document.querySelector(".gallery");
 const containerFiltres = document.querySelector(".container-filtres");
-
 let worksFetched = [];
+let currentIndex = "0";
+const tokenStorage = localStorage.getItem("token");
+const adminMode = document.querySelector("#adminMode");
+const btnModifier = document.querySelector(".btnModifier");
+const modalViwer = document.querySelector(".dialogue");
+const closeIcon = document.querySelector(
+  "#photoGalleryEdit .dialogueHeader i.fa-xmark"
+);
+const buttonAddImage = document.querySelector("#buttonAddImage");
+const imageAdd = document.querySelector("#imageAdd");
+const photoGalleryEdit = document.querySelector("#photoGalleryEdit");
+const cancelBtn = document.querySelector(
+  "#imageAdd .dialogueHeader i.fa-xmark"
+);
+const returnBtn = document.querySelector(".dialogueHeader i.fa-arrow-left");
+const dialogueBody = document.querySelector(".dialogueBody");
+const formUploadImage = document.getElementById("formUploadImage");
+const imageUpload = document.getElementById("imageUpload");
+const imageTitle = document.getElementById("imageTitle");
+const selectCategory = document.getElementById("selectCategory");
+const buttonSubmit = document.getElementById("buttonSubmit");
+const previewImage = document.getElementById("previewImage");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const token = localStorage.getItem("token");
+
+/* ---------------------------------- Functions ---------------------------------- */
 
 // get works
 async function getworks() {
@@ -36,7 +62,7 @@ async function getCategories() {
   return await response.json();
 }
 
-// display butons by categories
+// display buttons by categories
 async function displayCategoriesButtons() {
   const categories = await getCategories();
 
@@ -52,8 +78,6 @@ async function displayCategoriesButtons() {
   filterCategory();
 }
 displayCategoriesButtons();
-
-let currentIndex = "0";
 
 function updateButtons() {
   const listButtons = document.querySelectorAll(".buttons-filtres");
@@ -84,14 +108,10 @@ async function filterCategory() {
   });
 }
 
-// Display allworks
+// Display all works
 getworks().then(displayWorks);
 
-const tokenStorage = localStorage.getItem("token");
-const adminMode = document.querySelector("#adminMode");
-const btnModifier = document.querySelector(".btnModifier");
-const modalViwer = document.querySelector(".dialogue");
-console.log(tokenStorage);
+// Admin mode management
 if (tokenStorage) {
   adminMode.style.display = "flex";
   btnModifier.style.display = "flex";
@@ -107,23 +127,16 @@ btnModifier.addEventListener("click", function () {
   photoGalleryEdit.style.display = "flex";
 });
 
-const closeIcon = document.querySelector(
-  "#photoGalleryEdit .dialogueHeader i.fa-xmark"
-);
+// Close modal event
 closeIcon.addEventListener("click", function () {
   modalViwer.style.display = "none"; // Cache le dialogue
 });
-const buttonAddImage = document.querySelector("#buttonAddImage");
-const imageAdd = document.querySelector("#imageAdd");
-const photoGalleryEdit = document.querySelector("#photoGalleryEdit");
+
+// Add image button functionality
 buttonAddImage.addEventListener("click", function () {
   photoGalleryEdit.style.display = "none";
   imageAdd.style.display = "flex";
 });
-const cancelBtn = document.querySelector(
-  "#imageAdd .dialogueHeader i.fa-xmark"
-);
-const returnBtn = document.querySelector(".dialogueHeader i.fa-arrow-left");
 
 cancelBtn.addEventListener("click", function () {
   modalViwer.style.display = "none";
@@ -136,9 +149,8 @@ returnBtn.addEventListener("click", function () {
   imageAdd.style.display = "none";
 });
 
-// Display modalWorks
+// Display modal works
 getworks().then(displayModalWorks);
-const dialogueBody = document.querySelector(".dialogueBody");
 
 function displayModalWorks(works) {
   dialogueBody.innerHTML = "";
@@ -154,6 +166,7 @@ function displayModalWorks(works) {
     imgContainer.appendChild(img);
     imgContainer.appendChild(trash);
     dialogueBody.appendChild(imgContainer);
+
     // To delete work
     trash.addEventListener("click", function () {
       console.log(work.id);
@@ -161,6 +174,7 @@ function displayModalWorks(works) {
     });
   });
 }
+
 // delete work
 async function deleteWork(workId) {
   const confirmed = confirm("Êtes-vous sûr de vouloir supprimer cette œuvre ?");
@@ -176,9 +190,8 @@ async function deleteWork(workId) {
     });
 
     if (response.ok) {
-      // Si la suppression est réussie, mettre à jour l'affichage des œuvres
-      getworks().then(displayModalWorks);
-      getworks().then(displayWorks);
+      getworks().then(displayModalWorks); // update modal works
+      getworks().then(displayWorks); // update gallery works
 
       alert("L'œuvre a été supprimée avec succès.");
     } else {
@@ -188,15 +201,8 @@ async function deleteWork(workId) {
     console.error("Erreur lors de la suppression de l'œuvre :", error);
   }
 }
-//Sélectionner les éléments du formulaire
-const formUploadImage = document.getElementById("formUploadImage");
-const imageUpload = document.getElementById("imageUpload");
-const imageTitle = document.getElementById("imageTitle");
-const selectCategory = document.getElementById("selectCategory");
-const buttonSubmit = document.getElementById("buttonSubmit");
-const previewImage = document.getElementById("previewImage");
 
-// change categories
+// Load categories in form select dropdown
 async function loadCategories() {
   const categories = await getCategories();
   selectCategory.innerHTML = "";
@@ -210,7 +216,7 @@ async function loadCategories() {
 
 loadCategories();
 
-// image Preview
+// Image upload preview functionality
 imageUpload.addEventListener("change", function (event) {
   previewImage.style.display = "flex";
   const file = event.target.files[0];
@@ -224,9 +230,8 @@ imageUpload.addEventListener("change", function (event) {
   }
 });
 
-// hide children
+// Hide children elements in image preview
 function hideChildren() {
-  // Sélectionne tous les enfants de #imageLabel sauf #previewImage
   const children = imageLabel.querySelectorAll(
     ":scope > *:not(#previewImage):not(input)"
   );
@@ -235,20 +240,15 @@ function hideChildren() {
   });
 }
 
-// Gérer l'envoi du formulaire pour ajouter une nouvelle image
+// Form submission for image upload
 buttonSubmit.addEventListener("click", async function (event) {
   event.preventDefault();
 
   if (!imageUpload.files[0] || !imageTitle.value || !selectCategory.value) {
     alert("Veuillez remplir tous les champs obligatoires.");
-    console.log(imageTitle.value);
-    console.log(selectCategory.value);
-    console.log(imageUpload.files);
-
     return;
   }
 
-  // Création des données du formulaire
   const formData = new FormData();
   formData.append("image", imageUpload.files[0]);
   formData.append("title", imageTitle.value);
@@ -283,11 +283,7 @@ buttonSubmit.addEventListener("click", async function (event) {
   }
 });
 
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const token = localStorage.getItem("token"); // Vérifie si l'utilisateur est connecté
-
-// Si l'utilisateur est connecté, affiche le bouton Logout et cache le bouton Login
+// Login/logout buttons management
 if (token) {
   loginBtn.style.display = "none";
   logoutBtn.style.display = "block";
@@ -296,7 +292,7 @@ if (token) {
   loginBtn.style.display = "block";
 }
 
-// Ajouter l'événement de déconnexion
+// Logout functionality
 logoutBtn.addEventListener("click", (event) => {
   event.preventDefault();
   localStorage.removeItem("token");
