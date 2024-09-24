@@ -251,14 +251,15 @@ function hideChildren() {
 }
 const validSubmitButton = () => {
   const isImageSelected = imageUpload.files.length > 0;
-  const isTitleSelected = imageTitle.value.trim() !== 0;
-  const isCategorieSelected = selectCategory.value !== 0;
-
+  const isTitleSelected = imageTitle.value.trim() !== "";
+  const isCategorieSelected = selectCategory.value !== "";
+  console.log("image", isImageSelected);
   if (isImageSelected && isTitleSelected && isCategorieSelected) {
     buttonSubmit.disabled = false;
   } else {
     buttonSubmit.disabled = true;
   }
+  console.log("checking", buttonSubmit.disabled);
 };
 imageUpload.addEventListener("change", validSubmitButton);
 imageTitle.addEventListener("input", validSubmitButton);
