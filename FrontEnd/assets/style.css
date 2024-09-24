@@ -320,6 +320,11 @@ input[type="submit"] {
   border-radius: 60px;
 }
 
+input[type="submit"]:disabled {
+  background-color: grey;
+  cursor: none;
+}
+
 footer nav ul {
   display: flex;
   justify-content: flex-end;
@@ -333,6 +338,7 @@ footer nav ul {
 }
 .edition {
   display: flex;
+  height: 8vh;
   justify-content: center;
   align-items: center;
   background-color: black;
@@ -494,7 +500,7 @@ footer nav ul {
   justify-content: space-between;
 }
 
-#buttonSubmit {
+/**#buttonSubmit {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -502,12 +508,12 @@ footer nav ul {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 14px;
-  background-color: #a7a7a7;
+  background-color: green;
   text-align: center;
   width: 237px;
   height: 36px;
   border-radius: 60px;
-}
+}**/
 
 #formUploadImage {
   display: flex;

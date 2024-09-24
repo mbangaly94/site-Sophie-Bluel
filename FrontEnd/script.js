@@ -31,12 +31,16 @@ const token = localStorage.getItem("token");
 /* ---------------------------------- Functions ---------------------------------- */
 
 // get works
-async function getworks() {
-  const response = await fetch("http://localhost:5678/api/works");
-  const data = await response.json();
-  worksFetched = data;
-  return data;
-}
+const getworks = async () => {
+  try {
+    const response = await fetch("http://localhost:5678/api/works");
+    const data = await response.json();
+    worksFetched = data;
+    return data;
+  } catch (error) {
+    console.error("eurreur au niveau du fetch des works", error);
+  }
+};
 
 // display works
 function displayWorks(works) {
@@ -136,6 +140,7 @@ closeIcon.addEventListener("click", function () {
 buttonAddImage.addEventListener("click", function () {
   photoGalleryEdit.style.display = "none";
   imageAdd.style.display = "flex";
+  validSubmitButton();
 });
 
 cancelBtn.addEventListener("click", function () {
@@ -190,8 +195,10 @@ async function deleteWork(workId) {
     });
 
     if (response.ok) {
-      getworks().then(displayModalWorks); // update modal works
-      getworks().then(displayWorks); // update gallery works
+      getworks().then((works) => {
+        displayModalWorks(works);
+        displayWorks(works);
+      });
 
       alert("L'œuvre a été supprimée avec succès.");
     } else {
@@ -205,7 +212,10 @@ async function deleteWork(workId) {
 // Load categories in form select dropdown
 async function loadCategories() {
   const categories = await getCategories();
+
   selectCategory.innerHTML = "";
+  const optionDefault = document.createElement("option");
+  selectCategory.appendChild(optionDefault);
   categories.forEach((category) => {
     const option = document.createElement("option");
     option.value = category.id;
@@ -239,6 +249,20 @@ function hideChildren() {
     child.style.display = "none";
   });
 }
+const validSubmitButton = () => {
+  const isImageSelected = imageUpload.files.length > 0;
+  const isTitleSelected = imageTitle.value.trim() !== 0;
+  const isCategorieSelected = selectCategory.value !== 0;
+
+  if (isImageSelected && isTitleSelected && isCategorieSelected) {
+    buttonSubmit.disabled = false;
+  } else {
+    buttonSubmit.disabled = true;
+  }
+};
+imageUpload.addEventListener("change", validSubmitButton);
+imageTitle.addEventListener("input", validSubmitButton);
+selectCategory.addEventListener("change", validSubmitButton);
 
 // Form submission for image upload
 buttonSubmit.addEventListener("click", async function (event) {
@@ -269,8 +293,10 @@ buttonSubmit.addEventListener("click", async function (event) {
       formUploadImage.reset();
       previewImage.src = "./assets/icons/picture.png";
 
-      getworks().then(displayModalWorks); // update modalWorks
-      getworks().then(displayWorks); // update galeryWorks
+      getworks().then((works) => {
+        displayModalWorks(works);
+        displayWorks(works);
+      });
 
       photoGalleryEdit.style.display = "flex";
       imageAdd.style.display = "none";
